@@ -17,6 +17,8 @@ can achieve the same result, but you must use one of the daily Ubuntu ISO server
 3. Download Ubuntu 20.04 Jammy server edition from https://ubuntu.com/download/server/arm
 4. Create a new virtual machine, ensure video acceleration is enabled
 
+https://user-images.githubusercontent.com/6087327/199009533-9136f41b-fa56-4803-a989-d880683468cd.mov
+
 ### Configure Ubuntu 
 To use the playbooks in this repository, we need to install git & ansible.
 
