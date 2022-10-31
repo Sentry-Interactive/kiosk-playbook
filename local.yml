@@ -1,12 +1,5 @@
 ---
 - hosts: all
-
-  tasks:
-    - name: test ansible
-      copy:
-        content: "it works!"
-        dest: /tmp/ansibletest
-        force: no
-        group: root
-        owner: root
-        mode: 0555
+  roles:
+    - common
+    - kiosk

@@ -1,0 +1,38 @@
+---
+- name: Add sentry apt key
+  ansible.builtin.get_url:
+    url: https://d1a5u3fbv6g2i0.cloudfront.net/doordeck.asc
+    dest: /usr/share/keyrings/doordeck.gpg
+
+- name: Setup sentry apt repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=all signed-by=/usr/share/keyrings/doordeck.gpg] https://d1a5u3fbv6g2i0.cloudfront.net stable main
+    filename: sentry
+    update_cache: true
+
+- name: Install jester authentication sidecar
+  ansible.builtin.apt:
+    name: sentry-jester
+
+- name: Install ubuntu-frame
+  community.general.snap:
+    name:
+      - ubuntu-frame
+    options:
+      - daemon=true
+
+- name: Install wpe-webkit-mir-kiosk
+  community.general.snap:
+    name:
+      - wpe-webkit-mir-kiosk
+    options:
+      - daemon=true
+      - url=https://sentry-kiosk-device.web.app/
+      - error-to-console=true
+
+- name: Snap Packages - Setup Plugs
+  changed_when: false
+  shell: 'snap connect {{ item.app }}:{{ item.plug }}'
+  with_items:
+    - plug: wayland
+      app: wpe-webkit-mir-kiosk

@@ -1,0 +1,7 @@
+- name: Install ansible
+  ansible.builtin.apt:
+    name: ansible-core
+
+# TODO
+# Setup ansible-pull cron job
+# Ensure requirements are installed
