@@ -8,7 +8,6 @@
 
 - name: Set hostname using MAC Address
   ansible.builtin.hostname:
-    use: debian
     name: "MA{{ ansible_default_ipv4.macaddress[-12:] | replace(':','') | upper | string }}"
 
 - name: Update hosts file
@@ -25,3 +24,16 @@
       ff02::1 ip6-allnodes
       ff02::2 ip6-allrouters
       
+- name: Install ansible-pull services
+  ansible.builtin.template:
+    dest: /etc/systemd/system
+    src: "{{ item }}"
+  loop:
+    - ansible-pull.service
+    - ansible-pull.timer
+
+- name: Enable ansible-pull timer
+  ansible.builtin.service:
+    name: ansible-pull.timer
+    state: started
+    enabled: yes
