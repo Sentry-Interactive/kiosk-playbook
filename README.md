@@ -40,7 +40,10 @@ cd kiosk-playbook
 
 After these commands have completed, the UTM window should be displaying the kiosk.
 
-
+# TODO
+- Add supervisor script/tool to ensure browser is running, if not restart gdm
+- Fix Chrome asking for microphone/webcam permissions
+- Add VNC or xRDP
 
 # Credits
 - https://github.com/jktr/ansible-pull-example

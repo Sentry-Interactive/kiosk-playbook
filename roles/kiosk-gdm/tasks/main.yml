@@ -1,5 +1,18 @@
 ---
 # Alternative approach using GDM and whatever browser works
+- name: Add group for kiosk user
+  ansible.builtin.group:
+    name: kiosk
+    state: present
+
+- name: Add user account for kiosk
+  ansible.builtin.user:
+    name: kiosk
+    comment: Kiosk
+    shell: /usr/sbin/nologin
+    group: kiosk
+    groups: video
+
 - name: Install GDM and web browsers dependencies
   ansible.builtin.apt:
     pkg:
@@ -12,6 +25,8 @@
     dest: /etc/X11/default-display-manager
     content: |
       /usr/sbin/gdm3
+  notify:
+    - Restart GDM
 
 - name: Configure GDM to autologin
   ansible.builtin.copy:
@@ -19,25 +34,43 @@
     content: |
       [daemon]
       AutomaticLoginEnable=True
-      AutomaticLogin=michael
+      AutomaticLogin=kiosk
+  notify:
+    - Restart GDM
 
-- name: Configure Kiosk XSession
+- name: Configure Kiosk Firefox XSession
   ansible.builtin.copy:
-    dest: /usr/share/xsessions/kiosk.desktop
+    dest: /usr/share/xsessions/kiosk-firefox.desktop
     content: |
       [Desktop Entry]
       Type=Application
       Exec=firefox -kiosk https://sentry-kiosk-device.web.app/
-      Name=Sentry Kiosk
-      Comment=Sentry Kiosk
+      Name=Sentry Kiosk (Firefox)
+      Comment=Sentry Kiosk (Firefox)
+  notify:
+    - Restart GDM
+
+- name: Configure Kiosk Chromium XSession
+  ansible.builtin.copy:
+    dest: /usr/share/xsessions/kiosk-chromium.desktop
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Exec=chromium-browser -kiosk https://sentry-kiosk-device.web.app/
+      Name=Sentry Kiosk (Chromium)
+      Comment=Sentry Kiosk (Chromium)
+  notify:
+    - Restart GDM
 
 - name: Set Kiosk XSession as default
   ansible.builtin.copy:
-    dest: /var/lib/AccountsService/users/michael
+    dest: /var/lib/AccountsService/users/kiosk
     content: |
       [User]
-      Session=kiosk
+      Session=kiosk-chromium
       SystemAccount=false
+  notify:
+    - Restart GDM
 
 - name: Create 'managed' directory for Chromium configuration
   ansible.builtin.file:
@@ -55,6 +88,8 @@
   ansible.builtin.copy:
     dest: /etc/chromium/policies/managed/chrome.json
     src: ../files/chrome.json
+  notify:
+    - Restart GDM
 
 - name: Create Firefox policy directory
   ansible.builtin.file:
@@ -66,21 +101,23 @@
   ansible.builtin.copy:
     dest: /etc/firefox/policies/policies.json
     src: ../files/policies.json
+  notify:
+    - Restart GDM
 
 # FIXME Not working
 - name: Create Firefox profile directory
   ansible.builtin.file:
-    path: /home/michael/snap/firefox/common/.mozilla/firefox/default/chrome
-    owner: michael
-    group: michael
+    path: /home/kiosk/snap/firefox/common/.mozilla/firefox/default/chrome
+    owner: kiosk
+    group: kiosk
     state: directory
     mode: '0755'
 
 - name: Setup default Firefox profile
   ansible.builtin.copy:
-    dest: /home/michael/snap/firefox/common/.mozilla/firefox/profiles.ini
-    owner: michael
-    group: michael
+    dest: /home/kiosk/snap/firefox/common/.mozilla/firefox/profiles.ini
+    owner: kiosk
+    group: kiosk
     content: |
       [Profile0]
       Name=default
@@ -95,9 +132,9 @@
 # FIXME Not working
 - name: Override Firefox user interface CSS styles
   ansible.builtin.copy:
-    dest: /home/michael/snap/firefox/common/.mozilla/firefox/default/chrome/userChrome.css
-    owner: michael
-    group: michael
+    dest: /home/kiosk/snap/firefox/common/.mozilla/firefox/default/chrome/userChrome.css
+    owner: kiosk
+    group: kiosk
     content: |
       #webrtcIndicator {
         display: none;

@@ -1,0 +1,5 @@
+---
+- name: Restart GDM
+  service:
+    name: gdm
+    state: restarted
