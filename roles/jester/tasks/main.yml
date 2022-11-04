@@ -1,0 +1,15 @@
+---
+- name: Add sentry apt key
+  ansible.builtin.get_url:
+    url: https://d1a5u3fbv6g2i0.cloudfront.net/doordeck.asc
+    dest: /usr/share/keyrings/doordeck.gpg
+
+- name: Setup sentry apt repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=all signed-by=/usr/share/keyrings/doordeck.gpg] https://d1a5u3fbv6g2i0.cloudfront.net stable main
+    filename: sentry
+    update_cache: true
+
+- name: Install jester authentication sidecar
+  ansible.builtin.apt:
+    name: sentry-jester

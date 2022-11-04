@@ -5,3 +5,23 @@
 # TODO
 # Setup ansible-pull cron job
 # Ensure requirements are installed
+
+- name: Set hostname using MAC Address
+  ansible.builtin.hostname:
+    use: debian
+    name: "MA{{ ansible_default_ipv4.macaddress[-12:] | replace(':','') | upper | string }}"
+
+- name: Update hosts file
+  ansible.builtin.copy:
+    dest: /etc/hosts
+    content: |
+      127.0.0.1 localhost
+      127.0.1.1 MA{{ ansible_default_ipv4.macaddress[-12:] | replace(':','') | upper | string }}
+      
+      # The following lines are desirable for IPv6 capable hosts
+      ::1     ip6-localhost ip6-loopback
+      fe00::0 ip6-localnet
+      ff00::0 ip6-mcastprefix
+      ff02::1 ip6-allnodes
+      ff02::2 ip6-allrouters
+      

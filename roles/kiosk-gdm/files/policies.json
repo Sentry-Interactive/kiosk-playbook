@@ -1,0 +1,44 @@
+{
+  "policies": {
+    "Permissions": {
+      "Camera": {
+        "Allow": ["https://sentry-kiosk-device.web.app"],
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Microphone": {
+        "Allow": ["https://sentry-kiosk-device.web.app"],
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Location": {
+        "Allow": ["https://sentry-kiosk-device.web.app"],
+        "BlockNewRequests": false,
+        "Locked": true
+      },
+      "Notifications": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Autoplay": {
+        "Allow": ["https://sentry-kiosk-device.web.app"],
+        "Default": "allow-audio-video",
+        "Locked": true
+      },
+      "Preferences": {
+        "privacy.webrtc.legacyGlobalIndicator": {
+          "Value": false,
+          "Status": "user"
+        },
+        "privacy.webrtc.hideGlobalIndicator": {
+          "Value": true,
+          "Status": "user"
+        },
+        "toolkit.legacyUserProfileCustomizations.stylesheets": {
+          "Value": true,
+          "Status": "user"
+        }
+      }
+    }
+  }
+}

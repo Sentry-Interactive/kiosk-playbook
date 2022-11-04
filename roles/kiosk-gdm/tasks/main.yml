@@ -1,0 +1,104 @@
+---
+# Alternative approach using GDM and whatever browser works
+- name: Install GDM and web browsers dependencies
+  ansible.builtin.apt:
+    pkg:
+    - gdm3
+    - firefox
+    - chromium-browser
+
+- name: Configure GDM as default
+  ansible.builtin.copy:
+    dest: /etc/X11/default-display-manager
+    content: |
+      /usr/sbin/gdm3
+
+- name: Configure GDM to autologin
+  ansible.builtin.copy:
+    dest: /etc/gdm3/custom.conf
+    content: |
+      [daemon]
+      AutomaticLoginEnable=True
+      AutomaticLogin=michael
+
+- name: Configure Kiosk XSession
+  ansible.builtin.copy:
+    dest: /usr/share/xsessions/kiosk.desktop
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Exec=firefox -kiosk https://sentry-kiosk-device.web.app/
+      Name=Sentry Kiosk
+      Comment=Sentry Kiosk
+
+- name: Set Kiosk XSession as default
+  ansible.builtin.copy:
+    dest: /var/lib/AccountsService/users/michael
+    content: |
+      [User]
+      Session=kiosk
+      SystemAccount=false
+
+- name: Create 'managed' directory for Chromium configuration
+  ansible.builtin.file:
+    path: /etc/chromium/policies/managed
+    state: directory
+    mode: '0755'
+
+- name: Create 'recommended' directory for Chromium configuration
+  ansible.builtin.file:
+    path: /etc/chromium/policies/recommended
+    state: directory
+    mode: '0755'
+
+- name: Setup Chromium managed policy
+  ansible.builtin.copy:
+    dest: /etc/chromium/policies/managed/chrome.json
+    src: ../files/chrome.json
+
+- name: Create Firefox policy directory
+  ansible.builtin.file:
+    path: /etc/firefox/policies
+    state: directory
+    mode: '0755'
+
+- name: Setup Firefox managed policy
+  ansible.builtin.copy:
+    dest: /etc/firefox/policies/policies.json
+    src: ../files/policies.json
+
+# FIXME Not working
+- name: Create Firefox profile directory
+  ansible.builtin.file:
+    path: /home/michael/snap/firefox/common/.mozilla/firefox/default/chrome
+    owner: michael
+    group: michael
+    state: directory
+    mode: '0755'
+
+- name: Setup default Firefox profile
+  ansible.builtin.copy:
+    dest: /home/michael/snap/firefox/common/.mozilla/firefox/profiles.ini
+    owner: michael
+    group: michael
+    content: |
+      [Profile0]
+      Name=default
+      IsRelative=1
+      Path=default
+      Default=1
+
+      [General]
+      StartWithLastProfile=1
+      Version=2
+
+# FIXME Not working
+- name: Override Firefox user interface CSS styles
+  ansible.builtin.copy:
+    dest: /home/michael/snap/firefox/common/.mozilla/firefox/default/chrome/userChrome.css
+    owner: michael
+    group: michael
+    content: |
+      #webrtcIndicator {
+        display: none;
+      }
