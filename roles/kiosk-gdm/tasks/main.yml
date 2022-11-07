@@ -74,19 +74,19 @@
 
 - name: Create 'managed' directory for Chromium configuration
   ansible.builtin.file:
-    path: /etc/chromium/policies/managed
+    path: /etc/chromium-browser/policies/managed
     state: directory
     mode: '0755'
 
 - name: Create 'recommended' directory for Chromium configuration
   ansible.builtin.file:
-    path: /etc/chromium/policies/recommended
+    path: /etc/chromium-browser/policies/recommended
     state: directory
     mode: '0755'
 
 - name: Setup Chromium managed policy
   ansible.builtin.copy:
-    dest: /etc/chromium/policies/managed/chrome.json
+    dest: /etc/chromium-browser/policies/managed/chrome.json
     src: ../files/chrome.json
   notify:
     - Restart GDM

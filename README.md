@@ -10,7 +10,7 @@ The playbooks can be tested against a remote VM or physical machine, ensure ansi
 
 ```shell
 ansible-galaxy install -r requirements.yml
-ansible-playbook -i "192.168.202.181," local-lightdm.yml
+ansible-playbook -i "192.168.202.181," local.yml
 ```
 
 ### Install UTM & Setup Virtual Machine
@@ -47,3 +47,4 @@ After these commands have completed, the UTM window should be displaying the kio
 
 # Credits
 - https://github.com/jktr/ansible-pull-example
+- https://help.gnome.org/admin/system-admin-guide/stable/lockdown-single-app-mode.html.en
