@@ -39,8 +39,6 @@ After these commands have completed, the UTM window should be displaying the kio
 
 # TODO
 - Add supervisor script/tool to ensure browser is running, if not restart gdm
-- Rotate display 90 degrees left
-- Enable SSH with privileged user 
 
 # Credits
 - https://github.com/jktr/ansible-pull-example

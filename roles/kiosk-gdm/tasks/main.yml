@@ -113,6 +113,31 @@
     mode: '0600'
     content: '{{ "NLrBqPxZGKk=" | b64decode }}'
 
+- name: Create directory for custom scripts
+  ansible.builtin.file:
+    path: /home/kiosk/.config/sentry
+    state: directory
+    owner: kiosk
+    group: kiosk
+    mode: '0755'
+
+- name: Create script for rotating screen
+  ansible.builtin.copy:
+    dest: /home/kiosk/.config/sentry/rotate
+    owner: kiosk
+    group: kiosk
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      if xrandr --listactivemonitors | grep -q "LVDS-1";
+      then
+        xrandr -o left
+      else
+        echo "Unable to find expected output device, ignoring rotation"
+      fi
+  notify:
+    - Restart GDM
+
 - name: Create .xsessionrc file to start VNC on login
   ansible.builtin.copy:
     dest: /home/kiosk/.xsessionrc
@@ -120,6 +145,7 @@
     group: kiosk
     mode: '0600'
     content: |
+      ~/.config/sentry/rotate
       x0vncserver -AlwaysShared -AcceptPointerEvents=false AcceptKeyEvents=false -rfbauth ~/.vnc/passwd
   notify:
     - Restart GDM
