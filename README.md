@@ -31,19 +31,16 @@ https://user-images.githubusercontent.com/6087327/199009533-9136f41b-fa56-4803-a
 To use the playbooks in this repository, we need to install git & ansible.
 
 ```shell
-apt-get update
-apt-get install -y git ansible-core
-git clone https://github.com/mpbarnwell/ansible-test.git kiosk-playbook
-cd kiosk-playbook
-./run
+apt-get update && apt-get install -y git ansible-core
+sudo ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git -i "$(uname -n)," --diff
 ```
 
 After these commands have completed, the UTM window should be displaying the kiosk.
 
 # TODO
 - Add supervisor script/tool to ensure browser is running, if not restart gdm
-- Fix Chrome asking for microphone/webcam permissions
-- Add VNC or xRDP
+- Rotate display 90 degrees left
+- Enable SSH with privileged user 
 
 # Credits
 - https://github.com/jktr/ansible-pull-example
