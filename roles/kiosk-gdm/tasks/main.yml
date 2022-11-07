@@ -13,12 +13,13 @@
     group: kiosk
     groups: video
 
-- name: Install GDM and web browsers dependencies
+- name: Install GDM, browsers and other tools
   ansible.builtin.apt:
     pkg:
     - gdm3
     - firefox
     - chromium-browser
+    - tigervnc-scraping-server
 
 - name: Configure GDM as default
   ansible.builtin.copy:
@@ -104,38 +105,21 @@
   notify:
     - Restart GDM
 
-# FIXME Not working
-- name: Create Firefox profile directory
-  ansible.builtin.file:
-    path: /home/kiosk/snap/firefox/common/.mozilla/firefox/default/chrome
-    owner: kiosk
-    group: kiosk
-    state: directory
-    mode: '0755'
-
-- name: Setup default Firefox profile
+- name: Set VNC password to 'sentry' (VNC is only accessible view localhost)
   ansible.builtin.copy:
-    dest: /home/kiosk/snap/firefox/common/.mozilla/firefox/profiles.ini
+    dest: /home/kiosk/.vnc/passwd
     owner: kiosk
     group: kiosk
-    content: |
-      [Profile0]
-      Name=default
-      IsRelative=1
-      Path=default
-      Default=1
+    mode: '0600'
+    content: '{{ "NLrBqPxZGKk=" | b64decode }}'
 
-      [General]
-      StartWithLastProfile=1
-      Version=2
-
-# FIXME Not working
-- name: Override Firefox user interface CSS styles
+- name: Create .xsessionrc file to start VNC on login
   ansible.builtin.copy:
-    dest: /home/kiosk/snap/firefox/common/.mozilla/firefox/default/chrome/userChrome.css
+    dest: /home/kiosk/.xsessionrc
     owner: kiosk
     group: kiosk
+    mode: '0600'
     content: |
-      #webrtcIndicator {
-        display: none;
-      }
+      x0vncserver -AlwaysShared -AcceptPointerEvents=false AcceptKeyEvents=false -rfbauth ~/.vnc/passwd
+  notify:
+    - Restart GDM
