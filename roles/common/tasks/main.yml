@@ -37,3 +37,40 @@
     name: ansible-pull.timer
     state: started
     enabled: yes
+
+- name: Setup management user group 
+  ansible.builtin.group:
+    name: sentry
+    state: present
+
+- name: Setup management user account
+  ansible.builtin.user:
+    name: sentry
+    group: sentry
+    groups: sudo
+    shell: /usr/bin/bash
+
+- name: Create .ssh directory
+  ansible.builtin.file:
+    path: /home/sentry/.ssh/
+    state: directory
+    owner: sentry
+    group: sentry
+    mode: '0700'
+
+- name: Setup management SSH key
+  ansible.builtin.copy:
+    dest: /home/sentry/.ssh/authorized_keys
+    mode: '0600'
+    owner: sentry
+    group: sentry
+    content: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEwGHYkaDYnZWuA+tEJ+rJY7mnv3MXAHiY7ch2+KBHUR sentry
+      
+- name: Enable sudo without a password
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
