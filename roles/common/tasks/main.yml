@@ -2,10 +2,6 @@
   ansible.builtin.apt:
     name: ansible-core
 
-# TODO
-# Setup ansible-pull cron job
-# Ensure requirements are installed
-
 - name: Set hostname using MAC Address
   ansible.builtin.hostname:
     name: "{{ hostname }}"
