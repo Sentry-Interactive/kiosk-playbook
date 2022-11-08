@@ -105,6 +105,14 @@
   notify:
     - Restart GDM
 
+- name: Create VNC config directory
+  ansible.builtin.file:
+    path: /home/kiosk/.vnc
+    owner: kiosk
+    group: kiosk
+    state: directory
+    mode: '0700'
+
 - name: Set VNC password to 'sentry' (VNC is only accessible view localhost)
   ansible.builtin.copy:
     dest: /home/kiosk/.vnc/passwd
