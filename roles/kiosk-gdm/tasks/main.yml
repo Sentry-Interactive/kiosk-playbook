@@ -20,6 +20,7 @@
     - firefox
     - chromium-browser
     - tigervnc-scraping-server
+    - dbus-x11
 
 - name: Configure GDM as default
   ansible.builtin.copy:
@@ -155,5 +156,8 @@
     content: |
       ~/.config/sentry/rotate
       x0vncserver -AlwaysShared -AcceptPointerEvents=false AcceptKeyEvents=false -rfbauth ~/.vnc/passwd
+      xset -dpms
+      xset s off
+      gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
   notify:
     - Restart GDM
