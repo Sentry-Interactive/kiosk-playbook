@@ -1,5 +1,6 @@
 - name: Install ansible
   ansible.builtin.apt:
+    update_cache: yes
     name: ansible-core
 
 - name: Set hostname using MAC Address

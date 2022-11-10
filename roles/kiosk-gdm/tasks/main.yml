@@ -15,6 +15,7 @@
 
 - name: Install GDM, browsers and other tools
   ansible.builtin.apt:
+    update_cache: yes
     pkg:
     - gdm3
     - firefox
@@ -84,7 +85,9 @@
   ansible.builtin.file:
     path: /etc/chromium-browser/policies/recommended
     state: directory
-    mode: '0755'
+    owner: root
+    group: root
+    mode: '0700'
 
 - name: Setup Chromium managed policy
   ansible.builtin.copy:
