@@ -22,7 +22,7 @@ can achieve the same result, but you must use one of the daily Ubuntu ISO server
 
 1. Download UTM from https://mac.getutm.app/
 2. Install UTM
-3. Download Ubuntu 20.04 Jammy server edition from https://ubuntu.com/download/server/arm
+3. Download Ubuntu 22.04 Jammy server edition from https://ubuntu.com/download/server/arm
 4. Create a new virtual machine, ensure video acceleration is enabled
 
 https://user-images.githubusercontent.com/6087327/199009533-9136f41b-fa56-4803-a989-d880683468cd.mov
@@ -36,6 +36,26 @@ sudo ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git -i
 ```
 
 After these commands have completed, the UTM window should be displaying the kiosk.
+
+## Ubuntu Auto Install Image
+The ansible playbooks are designed to be trigger periodically to apply updates and at first boot - to enable first boot
+operation, we customise an Ubuntu ISO using [Pxeless](https://github.com/cloudymax/pxeless). 
+
+The following command will take the auto install data from `user-data-kiosk.yaml` and build an Ubuntu installer ISO 
+image based on 22.04.
+
+```shell
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker run \
+  --platform linux/amd64 \
+  --rm \
+  --volume "$(pwd)/installer:/data" \
+  --user $(id -u):$(id -g) \
+  deserializeme/pxeless:latest \
+  --use-release-iso \
+  -a \
+  -u user-data-kiosk.yaml \
+  -n jammy
+```
 
 # TODO
 - Add supervisor script/tool to ensure browser is running, if not restart gdm

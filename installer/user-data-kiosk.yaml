@@ -1,0 +1,16 @@
+#cloud-config
+autoinstall:
+  version: 1
+  update: yes
+  keyboard: {layout: us, toggle: null, variant: ''}
+  locale: en_US.UTF-8
+  identity:
+    hostname: CHANGEME
+    password: "!"
+    username: sentry
+  user-data:
+    packages:
+      - ansible-core
+      - git
+    runcmd:
+      - ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git -i "CHANGEME," --diff
