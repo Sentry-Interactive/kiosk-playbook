@@ -45,7 +45,7 @@ The following command will take the auto install data from `user-data-kiosk.yaml
 image based on 22.04.
 
 ```shell
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker run \
+docker run \
   --platform linux/amd64 \
   --rm \
   --volume "$(pwd)/installer:/data" \
