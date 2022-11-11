@@ -22,6 +22,7 @@
     - chromium-browser
     - tigervnc-scraping-server
     - dbus-x11
+    - xinput
 
 - name: Configure GDM as default
   ansible.builtin.copy:
