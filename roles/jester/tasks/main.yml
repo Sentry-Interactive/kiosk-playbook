@@ -12,4 +12,5 @@
 
 - name: Install jester authentication sidecar
   ansible.builtin.apt:
+    state: latest
     name: sentry-jester
