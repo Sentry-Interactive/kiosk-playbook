@@ -1,0 +1,18 @@
+#!/bin/bash
+if xrandr --listactivemonitors | grep -q "LVDS-1";
+then
+  xrandr -o left
+  xarray=()
+    while IFS= read -r line; do
+            xarray+=( "$line" )
+    done < <( udevadm info --export-db | awk '/ID_INPUT_TOUCHSCREEN=1/' RS= | grep "^E: NAME=" | cut -d '"' -f2)
+
+    for i in "${xarray[@]}"
+    do
+       :
+            echo $i
+            xinput set-prop "$i" --type=float "Coordinate Transformation Matrix" 0 -1 1 1 0 0 0 0 1
+    done
+else
+  echo "Unable to find expected output device, ignoring rotation"
+fi
