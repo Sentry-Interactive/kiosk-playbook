@@ -71,3 +71,19 @@
     regexp: '^%sudo'
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
+
+- name: Retrieve playbook git hash
+  ansible.builtin.git:
+    repo: "{{ ansible_pull_url }}"
+    dest: /root/.ansible/pull/{{ hostname }}/
+    clone: no
+    update: no
+  register: repo
+
+- name: Save playbook git hash
+  ansible.builtin.copy:
+    dest: /etc/sentry-playbook.version
+    mode: '0644'
+    owner: root
+    group: root
+    content: "{{ repo.before }}"
