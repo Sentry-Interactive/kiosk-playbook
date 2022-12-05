@@ -136,19 +136,11 @@
 
 - name: Create script for rotating screen
   ansible.builtin.copy:
+    src: files/rotate
     dest: /home/kiosk/.config/sentry/rotate
     owner: kiosk
     group: kiosk
     mode: '0755'
-    content: |
-      #!/bin/bash
-      if xrandr --listactivemonitors | grep -q "LVDS-1";
-      then
-        xrandr -o left
-        xinput set-prop "eGalax Inc. eGalaxTouch P86H80 4001 v00_M04 k4.10.142" --type=float "Coordinate Transformation Matrix" 0 -1 1 1 0 0 0 0 1
-      else
-        echo "Unable to find expected output device, ignoring rotation"
-      fi
   notify:
     - Restart GDM
 
