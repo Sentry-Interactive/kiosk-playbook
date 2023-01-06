@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#Volume Control - turn up all volume output to 100%
+
+pulseaudio --start
+
+amixer set ‘Master’ 100%
+amixer set 'Headphone' 100%
+amixer set ‘Speaker’ 100%
