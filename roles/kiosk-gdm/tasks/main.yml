@@ -23,6 +23,7 @@
     - tigervnc-scraping-server
     - dbus-x11
     - xinput
+    - alsa-utils
 
 - name: Configure GDM as default
   ansible.builtin.copy:
@@ -156,5 +157,15 @@
       xset -dpms
       xset s off
       gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
+  notify:
+    - Restart GDM
+
+- name: Create startup script
+  ansible.builtin.copy:
+    src: files/startup
+    dest: /home/kiosk/.config/sentry/startup
+    owner: kiosk
+    group: kiosk
+    mode: '0755'
   notify:
     - Restart GDM
