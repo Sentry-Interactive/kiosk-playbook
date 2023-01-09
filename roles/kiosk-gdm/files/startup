@@ -5,5 +5,5 @@
 pulseaudio --start
 
 amixer set ‘Master’ 100%
-amixer set 'Headphone' 100%
-amixer set ‘Speaker’ 100%
+amixer set ‘Headphone‘ 100%
+amixer set ‘Speaker‘ 100%
