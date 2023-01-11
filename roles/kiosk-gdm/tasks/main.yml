@@ -145,6 +145,16 @@
   notify:
     - Restart GDM
 
+- name: Create startup script
+  ansible.builtin.copy:
+    src: files/startup
+    dest: /home/kiosk/.config/sentry/startup
+    owner: kiosk
+    group: kiosk
+    mode: '0755'
+  notify:
+    - Restart GDM
+
 - name: Create .xsessionrc file to start VNC on login
   ansible.builtin.copy:
     dest: /home/kiosk/.xsessionrc
@@ -157,15 +167,5 @@
       xset -dpms
       xset s off
       gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-  notify:
-    - Restart GDM
-
-- name: Create startup script
-  ansible.builtin.copy:
-    src: files/startup
-    dest: /home/kiosk/.config/sentry/startup
-    owner: kiosk
-    group: kiosk
-    mode: '0755'
   notify:
     - Restart GDM
