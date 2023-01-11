@@ -163,6 +163,7 @@
     mode: '0600'
     content: |
       ~/.config/sentry/rotate
+      ~/.config/sentry/startup
       x0vncserver -AlwaysShared -AcceptPointerEvents=false AcceptKeyEvents=false -rfbauth ~/.vnc/passwd
       xset -dpms
       xset s off
