@@ -3,5 +3,6 @@
   become: yes
   roles:
     - role: common
+    - role: teleport
     - role: jester
     - role: kiosk-gdm

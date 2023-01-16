@@ -1,0 +1,10 @@
+- name: Check if teleport service is enabled
+  command: systemctl is-enabled teleport
+  failed_when: teleport_enabled.rc >= 4
+  register: teleport_enabled
+
+- name: Restart teleport service
+  systemd:
+    name: teleport
+    state: restarted
+  when: teleport_enabled.stdout == "enabled"
