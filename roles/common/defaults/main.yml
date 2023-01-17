@@ -1,6 +1,6 @@
 ansible_pull_url: https://github.com/Sentry-Interactive/kiosk-playbook.git
 ansible_pull_timer: |
   OnBootSec=5m
-  OnCalendar=daily
+  OnCalendar=*-*-* 05:00:00
   RandomizedDelaySec=30m
 hostname: "MA{{ ansible_default_ipv4.macaddress[-10:] | replace(':','') | upper | string }}"
