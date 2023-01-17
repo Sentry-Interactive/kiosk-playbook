@@ -28,6 +28,8 @@
   loop:
     - ansible-pull.service
     - ansible-pull.timer
+  notify:
+    - Reload Systemd
 
 - name: Enable ansible-pull timer
   ansible.builtin.service:

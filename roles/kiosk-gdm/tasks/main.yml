@@ -170,3 +170,9 @@
       gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
   notify:
     - Restart GDM
+
+- name: Force restart of GDM
+  command: /bin/true
+  changed_when: true
+  notify:
+    - Restart GDM
