@@ -61,7 +61,8 @@
     content: |
       [Desktop Entry]
       Type=Application
-      Exec=chromium-browser -kiosk https://sentry-kiosk-device.web.app/
+      Exec=testtest ## should throw error
+      #Exec=chromium-browser -kiosk https://sentry-kiosk-device.web.app/
       Name=Sentry Kiosk (Chromium)
       Comment=Sentry Kiosk (Chromium)
   notify:

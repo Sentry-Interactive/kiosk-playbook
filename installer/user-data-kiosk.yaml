@@ -13,4 +13,4 @@ autoinstall:
       - ansible-core
       - git
     runcmd:
-      - ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git -i "CHANGEME," --diff
+      - ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git --checkout=feature/hide_cursor -i "CHANGEME," --diff
