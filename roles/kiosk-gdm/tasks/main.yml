@@ -24,7 +24,6 @@
     - dbus-x11
     - xinput
     - alsa-utils
-    - unclutter
 
 - name: Configure GDM as default
   ansible.builtin.copy:
@@ -127,15 +126,6 @@
     group: kiosk
     mode: '0600'
     content: '{{ "NLrBqPxZGKk=" | b64decode }}'
-
-- name: Enable unclutter to hide cursor
-  ansible.builtin.copy:
-    dest: /etc/default/unclutter
-    content: |
-      START_UNCLUTTER=true
-      EXTRA_OPTS="-idle 0"
-  notify:
-    - Restart GDM
 
 - name: Create directory for custom scripts
   ansible.builtin.file:
