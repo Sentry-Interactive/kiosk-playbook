@@ -21,9 +21,9 @@ To view host variables for a specific host, use the following command:
 ansible -i "MADBB9B05," all -m debug -a "var=hostvars.MADBB9B05"
 ```
 
-Testing host variables locally can be done but some tweaking may need to be done to make the host resovable, e.g. 
-if our host is MADBB9B05 but we can only contact it via an IP address or a mDNS hostname such as MADBB9B05 we need to 
-communicate this information to Ansible using a temporary inventory file.
+Testing host variables locally can be done, but we may need to alter the way we do it to allow hostnames to be resolved, 
+e.g. if our host is `MADBB9B05` but we can only contact it via an IP address or a mDNS hostname such as 
+`MADBB9B05.local` we need to communicate this information to Ansible using a temporary inventory file.
 ```shell
 TMPINV=`mktemp` && echo "MADBB9B05 ansible_host=MADBB9B05.local" > $TMPINV && ansible-playbook -i $TMPINV local.yml
 ```
