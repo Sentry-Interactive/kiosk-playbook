@@ -49,7 +49,7 @@
     content: |
       [Desktop Entry]
       Type=Application
-      Exec=firefox -kiosk https://sentry-kiosk-device.web.app/
+      Exec=firefox -kiosk "{{ kiosk_ui_url }}"
       Name=Sentry Kiosk (Firefox)
       Comment=Sentry Kiosk (Firefox)
   notify:
@@ -61,7 +61,7 @@
     content: |
       [Desktop Entry]
       Type=Application
-      Exec=chromium-browser -kiosk https://sentry-kiosk-device.web.app/
+      Exec=chromium-browser -kiosk "{{ kiosk_ui_url }}"
       Name=Sentry Kiosk (Chromium)
       Comment=Sentry Kiosk (Chromium)
   notify:

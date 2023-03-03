@@ -13,6 +13,21 @@ ansible-galaxy install -r requirements.yml
 ansible-playbook -i "192.168.202.181," local.yml
 ```
 
+### Using Host Variables
+Host variables (`host_vars`) allow overriding of certain properties for a specific host.
+
+To view host variables for a specific host, use the following command:
+```shell
+ansible -i "MADBB9B05," all -m debug -a "var=hostvars.MADBB9B05"
+```
+
+Testing host variables locally can be done, but we may need to alter the way we do it to allow hostnames to be resolved, 
+e.g. if our host is `MADBB9B05` but we can only contact it via an IP address or a mDNS hostname such as 
+`MADBB9B05.local` we need to communicate this information to Ansible using a temporary inventory file.
+```shell
+TMPINV=`mktemp` && echo "MADBB9B05 ansible_host=MADBB9B05.local" > $TMPINV && ansible-playbook -i $TMPINV local.yml
+```
+
 ### Install UTM & Setup Virtual Machine
 UTM is a free virtualization tool based on QEMU, it is well suited to test our kiosk setup.
 
