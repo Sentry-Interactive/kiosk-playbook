@@ -127,21 +127,25 @@
     mode: '0600'
     content: '{{ "NLrBqPxZGKk=" | b64decode }}'
 
-- name: Copy Trasparent cursor themes
+- name: Copy Transparent cursor themes
   ansible.builtin.copy:
     src: files/Transparent
     dest: /usr/share/icons
     owner: kiosk
     group: kiosk
     mode: '0755'
+  notify:
+    - Restart GDM
 
-- name: Install Trasparent cursor themes
+- name: Install Transparent cursor themes
   community.general.alternatives:
     name: x-cursor-theme
     link: /usr/share/icons/default/index.theme
     path: /usr/share/icons/Transparent/cursor.theme
     state: selected
     priority: 100
+  notify:
+    - Restart GDM
 
 - name: Create directory for custom scripts
   ansible.builtin.file:
