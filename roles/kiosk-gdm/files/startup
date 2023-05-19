@@ -10,7 +10,7 @@ amixer set "Speaker" 70%
 
 
 #Make external microphone the primary device 
-DEVICE_NAME="USB_Audio_Device-00.analog-stereo"
+DEVICE_NAME="USB_PnP_Audio_Device-00.mono"
 if pacmd list-sources | grep -B 2  "$DEVICE_NAME"; then
         MIC_INDEX=$(pacmd list-sources | grep -B 2 "$DEVICE_NAME" | awk '/index:/ {print $2}')
         # Set default input device
