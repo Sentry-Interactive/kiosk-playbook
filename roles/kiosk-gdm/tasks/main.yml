@@ -93,9 +93,9 @@
     mode: '0755'
 
 - name: Setup Chromium managed policy
-  ansible.builtin.copy:
+  ansible.builtin.template:
     dest: /etc/chromium-browser/policies/managed/chrome.json
-    src: ../files/chrome.json
+    src: chrome.json
   notify:
     - Restart GDM
 
@@ -106,9 +106,9 @@
     mode: '0755'
 
 - name: Setup Firefox managed policy
-  ansible.builtin.copy:
+  ansible.builtin.template:
     dest: /etc/firefox/policies/policies.json
-    src: ../files/policies.json
+    src: policies.json
   notify:
     - Restart GDM
 
