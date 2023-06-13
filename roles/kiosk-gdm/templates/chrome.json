@@ -1,0 +1,8 @@
+{
+  "VideoCaptureAllowedUrls": [
+    "{{ kiosk_ui_url }}"
+  ],
+  "AudioCaptureAllowedUrls": [
+    "{{ kiosk_ui_url }}"
+  ]
+}

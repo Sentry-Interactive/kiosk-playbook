@@ -12,7 +12,7 @@
       - wpe-webkit-mir-kiosk
     options:
       - daemon=true
-      - url=https://sentry-kiosk-device.web.app/
+      - url={{ kiosk_ui_url }}
       - error-to-console=true
 
 - name: Snap Packages - Setup Plugs
