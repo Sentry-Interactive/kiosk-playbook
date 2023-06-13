@@ -1,8 +1,0 @@
-{
-  "VideoCaptureAllowedUrls": [
-    "https://sentry-kiosk-device.web.app/"
-  ],
-  "AudioCaptureAllowedUrls": [
-    "https://sentry-kiosk-device.web.app/"
-  ]
-}
