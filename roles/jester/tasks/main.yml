@@ -2,6 +2,7 @@
 - name: Add sentry apt key
   ansible.builtin.get_url:
     url: https://apt.mysentrykiosk.dev/doordeck.asc
+    mode: '0644'
     dest: /usr/share/keyrings/doordeck.gpg
 
 - name: Ensure outdated apt repository URL is not used

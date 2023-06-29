@@ -1,0 +1,15 @@
+name: Build Playbook
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main

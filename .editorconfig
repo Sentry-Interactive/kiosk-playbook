@@ -1,0 +1,8 @@
+# .editorconfig
+root = true
+
+[*.{yml,yaml}]
+insert_final_newline = true
+
+[.ansible-lint]
+insert_final_newline = true

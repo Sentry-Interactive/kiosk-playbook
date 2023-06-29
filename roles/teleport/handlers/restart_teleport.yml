@@ -1,10 +1,12 @@
 - name: Check if teleport service is enabled
-  command: systemctl is-enabled teleport
+  ansible.builtin.command: systemctl is-enabled teleport
   failed_when: teleport_enabled.rc >= 4
   register: teleport_enabled
+  tags:
+    - skip_ansible_lint # Needs updating due to command-instead-of-module and no-changed-when lint rules
 
 - name: Restart teleport service
-  systemd:
+  ansible.builtin.systemd:
     name: teleport
     state: restarted
   when: teleport_enabled.stdout == "enabled"

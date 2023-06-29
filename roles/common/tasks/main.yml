@@ -1,6 +1,6 @@
 - name: Install ansible
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     name: ansible-core
 
 - name: Set hostname using MAC Address
@@ -10,20 +10,22 @@
 - name: Update hosts file
   ansible.builtin.copy:
     dest: /etc/hosts
+    mode: '0644'
     content: |
       127.0.0.1 localhost
       127.0.1.1 {{ hostname }}
-      
+
       # The following lines are desirable for IPv6 capable hosts
       ::1     ip6-localhost ip6-loopback
       fe00::0 ip6-localnet
       ff00::0 ip6-mcastprefix
       ff02::1 ip6-allnodes
       ff02::2 ip6-allrouters
-      
+
 - name: Install ansible-pull services
   ansible.builtin.template:
     dest: /etc/systemd/system
+    mode: '0644'
     src: "{{ item }}"
   loop:
     - ansible-pull.service
@@ -35,9 +37,9 @@
   ansible.builtin.service:
     name: ansible-pull.timer
     state: started
-    enabled: yes
+    enabled: true
 
-- name: Setup management user group 
+- name: Setup management user group
   ansible.builtin.group:
     name: sentry
     state: present
@@ -65,7 +67,7 @@
     group: sentry
     content: |
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEwGHYkaDYnZWuA+tEJ+rJY7mnv3MXAHiY7ch2+KBHUR sentry
-      
+
 - name: Enable sudo without a password
   ansible.builtin.lineinfile:
     path: /etc/sudoers
@@ -78,8 +80,8 @@
   ansible.builtin.git:
     repo: "{{ ansible_pull_url }}"
     dest: /root/.ansible/pull/{{ hostname }}/
-    clone: no
-    update: no
+    clone: false
+    update: false
   register: repo
 
 - name: Save playbook git hash

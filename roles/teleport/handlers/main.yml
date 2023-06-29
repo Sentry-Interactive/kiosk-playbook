@@ -1,2 +1,2 @@
 - name: Restart teleport conditionally
-  include_tasks: restart_teleport.yml
+  ansible.builtin.include_tasks: restart_teleport.yml
