@@ -76,7 +76,7 @@
   ansible.builtin.copy:
     dest: /var/lib/AccountsService/users/kiosk
     mode: '0600'
-    user: root
+    owner: root
     group: root
     content: |
       [User]
