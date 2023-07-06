@@ -1,9 +1,11 @@
 ---
 - hosts: all
+  name: Ansible-pull playbook to manage Sentry Interactive Kiosks
   tasks:
-    - name: add hosts to inventory groups
-      add_host:
+    - name: Add hosts to inventory groups
+      ansible.builtin.add_host:
         name: "{{ inventory_hostname }}"
         groups: "{{ hostvars[inventory_hostname].pull_groups | default([]) }}"
-      changed_when: False
-- import_playbook: playbook.yml
+      changed_when: false
+- name: Import primary playbook
+  import_playbook: playbook.yml

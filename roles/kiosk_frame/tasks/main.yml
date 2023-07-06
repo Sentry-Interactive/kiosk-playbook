@@ -17,7 +17,7 @@
 
 - name: Snap Packages - Setup Plugs
   changed_when: false
-  shell: 'snap connect {{ item.app }}:{{ item.plug }}'
+  ansible.builtin.command: 'snap connect {{ item.app }}:{{ item.plug }}'
   with_items:
     - plug: wayland
       app: wpe-webkit-mir-kiosk

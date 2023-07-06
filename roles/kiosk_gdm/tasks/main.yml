@@ -15,20 +15,21 @@
 
 - name: Install GDM, browsers and other tools
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
-    - gdm3
-    - firefox
-    - chromium-browser
-    - tigervnc-scraping-server
-    - dbus-x11
-    - xinput
-    - alsa-utils
-    - unclutter
+      - gdm3
+      - firefox
+      - chromium-browser
+      - tigervnc-scraping-server
+      - dbus-x11
+      - xinput
+      - alsa-utils
+      - unclutter
 
 - name: Configure GDM as default
   ansible.builtin.copy:
     dest: /etc/X11/default-display-manager
+    mode: '0644'
     content: |
       /usr/sbin/gdm3
   notify:
@@ -37,6 +38,7 @@
 - name: Configure GDM to autologin
   ansible.builtin.copy:
     dest: /etc/gdm3/custom.conf
+    mode: '0644'
     content: |
       [daemon]
       AutomaticLoginEnable=True
@@ -47,6 +49,7 @@
 - name: Configure Kiosk Firefox XSession
   ansible.builtin.copy:
     dest: /usr/share/xsessions/kiosk-firefox.desktop
+    mode: '0644'
     content: |
       [Desktop Entry]
       Type=Application
@@ -59,6 +62,7 @@
 - name: Configure Kiosk Chromium XSession
   ansible.builtin.copy:
     dest: /usr/share/xsessions/kiosk-chromium.desktop
+    mode: '0644'
     content: |
       [Desktop Entry]
       Type=Application
@@ -71,6 +75,9 @@
 - name: Set Kiosk XSession as default
   ansible.builtin.copy:
     dest: /var/lib/AccountsService/users/kiosk
+    mode: '0600'
+    owner: root
+    group: root
     content: |
       [User]
       Session=kiosk-chromium
@@ -95,6 +102,7 @@
 - name: Setup Chromium managed policy
   ansible.builtin.template:
     dest: /etc/chromium-browser/policies/managed/chrome.json
+    mode: '0644'
     src: chrome.json
   notify:
     - Restart GDM
@@ -108,6 +116,7 @@
 - name: Setup Firefox managed policy
   ansible.builtin.template:
     dest: /etc/firefox/policies/policies.json
+    mode: '0644'
     src: policies.json
   notify:
     - Restart GDM
@@ -131,6 +140,7 @@
 - name: Enable unclutter to hide cursor
   ansible.builtin.copy:
     dest: /etc/default/unclutter
+    mode: '0644'
     content: |
       START_UNCLUTTER=true
       EXTRA_OPTS="-idle 0"
@@ -182,7 +192,7 @@
     - Restart GDM
 
 - name: Force restart of GDM
-  command: /bin/true
+  ansible.builtin.command: /bin/true
   changed_when: true
   notify:
     - Restart GDM

@@ -1,8 +1,9 @@
 ---
 - hosts: all
-  become: yes
+  name: Playbook to manage Sentry Interactive Kiosks
+  become: true
   roles:
     - role: common
     - role: teleport
     - role: jester
-    - role: kiosk-gdm
+    - role: kiosk_gdm

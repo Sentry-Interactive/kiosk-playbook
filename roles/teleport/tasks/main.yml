@@ -2,11 +2,15 @@
 - name: Add Teleport apt key
   ansible.builtin.get_url:
     url: https://apt.releases.teleport.dev/gpg
+    mode: '0644'
     dest: /usr/share/keyrings/teleport-archive-keyring.asc
 
 - name: Setup Teleport apt repository
   ansible.builtin.apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/teleport-archive-keyring.asc] https://apt.releases.teleport.dev/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable/v11
+    repo: >
+      deb [signed-by=/usr/share/keyrings/teleport-archive-keyring.asc]
+      https://apt.releases.teleport.dev/{{ ansible_distribution | lower }}
+      {{ ansible_distribution_release }} stable/v11
     filename: teleport
     update_cache: true
 
@@ -20,13 +24,17 @@
 - name: Copy Teleport configuration
   ansible.builtin.copy:
     dest: /etc/teleport.yaml
-    src: ../files/teleport.yaml
+    mode: '0644'
+    src: files/teleport.yaml
   notify:
-   - Restart teleport conditionally
+    - Restart teleport conditionally
 
 - name: Enable jester to call systemctl
   ansible.builtin.copy:
     dest: /etc/sudoers.d/teleport
+    owner: root
+    group: root
+    mode: '0440'
     content: |
       Cmnd_Alias TELEPORT_CMDS = /usr/bin/systemctl enable --now teleport
       jester ALL=(ALL) NOPASSWD: TELEPORT_CMDS

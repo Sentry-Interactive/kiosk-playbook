@@ -1,0 +1,8 @@
+exclude_paths:
+  - .github/
+  - installer/
+
+skip_list:
+  - 'latest[git]'               # Ignores 'Result of the command may vary on subsequent runs'
+  - 'package-latest'            # Ignores 'Package installs should not use latest'
+  - 'skip_ansible_lint'         # Ignores 'skip_ansible_lint tag found'

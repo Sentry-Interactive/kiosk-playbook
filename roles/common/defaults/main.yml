@@ -3,4 +3,4 @@ ansible_pull_timer: |
   OnBootSec=5m
   OnCalendar=*-*-* 05:00:00
   RandomizedDelaySec=30m
-hostname: "MA{{ ansible_default_ipv4.macaddress[-10:] | replace(':','') | upper | string }}"
+hostname: "MA{{ ansible_default_ipv4.macaddress[-10:] | replace(':', '') | upper | string }}"
