@@ -13,6 +13,8 @@ then
             echo $i
             xinput set-prop "$i" --type=float "Coordinate Transformation Matrix" 0 -1 1 1 0 0 0 0 1
     done
+elif xrandr --listactivemonitors | grep -q "HDMI-2";
+  xrandr -o right
 else
   echo "Unable to find expected output device, ignoring rotation"
 fi
