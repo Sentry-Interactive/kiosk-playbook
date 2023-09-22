@@ -5,7 +5,7 @@
 
 - name: Set hostname using MAC Address
   ansible.builtin.hostname:
-    name: "{{ hostname }}"
+    name: "{{ common_hostname }}"
 
 - name: Update hosts file
   ansible.builtin.copy:
@@ -13,7 +13,7 @@
     mode: '0644'
     content: |
       127.0.0.1 localhost
-      127.0.1.1 {{ hostname }}
+      127.0.1.1 {{ common_hostname }}
 
       # The following lines are desirable for IPv6 capable hosts
       ::1     ip6-localhost ip6-loopback
@@ -78,8 +78,8 @@
 
 - name: Retrieve playbook git hash
   ansible.builtin.git:
-    repo: "{{ ansible_pull_url }}"
-    dest: /root/.ansible/pull/{{ hostname }}/
+    repo: "{{ common_ansible_pull_url }}"
+    dest: /root/.ansible/pull/{{ common_hostname }}/
     clone: false
     update: false
   register: repo

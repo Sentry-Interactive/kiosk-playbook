@@ -2,17 +2,17 @@
   "policies": {
     "Permissions": {
       "Camera": {
-        "Allow": ["{{ kiosk_ui_url }}"],
+        "Allow": ["{{ kiosk_gdm_kiosk_ui_url }}"],
         "BlockNewRequests": true,
         "Locked": true
       },
       "Microphone": {
-        "Allow": ["{{ kiosk_ui_url }}"],
+        "Allow": ["{{ kiosk_gdm_kiosk_ui_url }}"],
         "BlockNewRequests": true,
         "Locked": true
       },
       "Location": {
-        "Allow": ["{{ kiosk_ui_url }}"],
+        "Allow": ["{{ kiosk_gdm_kiosk_ui_url }}"],
         "BlockNewRequests": false,
         "Locked": true
       },
@@ -21,7 +21,7 @@
         "Locked": true
       },
       "Autoplay": {
-        "Allow": ["{{ kiosk_ui_url }}"],
+        "Allow": ["{{ kiosk_gdm_kiosk_ui_url }}"],
         "Default": "allow-audio-video",
         "Locked": true
       },
