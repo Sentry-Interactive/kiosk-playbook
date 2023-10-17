@@ -26,6 +26,13 @@
       - alsa-utils
       - unclutter
 
+- name: Ensure Chromium is up to date
+  ansible.builtin.command: snap refresh chromium --channel="{{ kiosk_gdm_chromium_channel }}"
+  register: result
+  changed_when: '"has no updates available" not in result.stderr'
+  notify:
+    - Restart GDM
+
 - name: Configure GDM as default
   ansible.builtin.copy:
     dest: /etc/X11/default-display-manager
@@ -74,14 +81,11 @@
 
 - name: Set Kiosk XSession as default
   ansible.builtin.copy:
+    src: files/kiosk.xsession
     dest: /var/lib/AccountsService/users/kiosk
     mode: '0600'
     owner: root
     group: root
-    content: |
-      [User]
-      Session=kiosk-chromium
-      SystemAccount=false
   notify:
     - Restart GDM
 

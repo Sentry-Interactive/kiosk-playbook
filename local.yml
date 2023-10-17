@@ -1,6 +1,6 @@
 ---
-- hosts: all
-  name: Ansible-pull playbook to manage Sentry Interactive Kiosks
+- name: Ansible-pull playbook to manage Sentry Interactive Kiosks
+  hosts: all
   tasks:
     - name: Add hosts to inventory groups
       ansible.builtin.add_host:
