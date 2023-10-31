@@ -10,7 +10,7 @@
     repo: >
       deb [signed-by=/usr/share/keyrings/teleport-archive-keyring.asc]
       https://apt.releases.teleport.dev/{{ ansible_distribution | lower }}
-      {{ ansible_distribution_release }} stable/v11
+      {{ ansible_distribution_release }} stable/v12
     filename: teleport
     update_cache: true
 
