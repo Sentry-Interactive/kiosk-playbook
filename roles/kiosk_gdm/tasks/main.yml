@@ -26,12 +26,15 @@
       - alsa-utils
       - unclutter
 
+- name: Stop GDM
+  ansible.builtin.service:
+    name: gdm
+    state: stopped
+
 - name: Ensure Chromium is up to date
   ansible.builtin.command: snap refresh chromium --channel="{{ kiosk_gdm_chromium_channel }}"
   register: result
   changed_when: '"has no updates available" not in result.stderr'
-  notify:
-    - Restart GDM
 
 - name: Configure GDM as default
   ansible.builtin.copy:
@@ -39,8 +42,6 @@
     mode: '0644'
     content: |
       /usr/sbin/gdm3
-  notify:
-    - Restart GDM
 
 - name: Configure GDM to autologin
   ansible.builtin.copy:
@@ -50,8 +51,6 @@
       [daemon]
       AutomaticLoginEnable=True
       AutomaticLogin=kiosk
-  notify:
-    - Restart GDM
 
 - name: Configure Kiosk Firefox XSession
   ansible.builtin.copy:
@@ -63,8 +62,6 @@
       Exec=firefox -kiosk "{{ kiosk_gdm_kiosk_ui_url }}"
       Name=Sentry Kiosk (Firefox)
       Comment=Sentry Kiosk (Firefox)
-  notify:
-    - Restart GDM
 
 - name: Configure Kiosk Chromium XSession
   ansible.builtin.copy:
@@ -76,8 +73,6 @@
       Exec=chromium-browser -kiosk "{{ kiosk_gdm_kiosk_ui_url }}"
       Name=Sentry Kiosk (Chromium)
       Comment=Sentry Kiosk (Chromium)
-  notify:
-    - Restart GDM
 
 - name: Set Kiosk XSession as default
   ansible.builtin.copy:
@@ -86,8 +81,6 @@
     mode: '0600'
     owner: root
     group: root
-  notify:
-    - Restart GDM
 
 - name: Create 'managed' directory for Chromium configuration
   ansible.builtin.file:
@@ -108,8 +101,6 @@
     dest: /etc/chromium-browser/policies/managed/chrome.json
     mode: '0644'
     src: chrome.json
-  notify:
-    - Restart GDM
 
 - name: Create Firefox policy directory
   ansible.builtin.file:
@@ -122,8 +113,6 @@
     dest: /etc/firefox/policies/policies.json
     mode: '0644'
     src: policies.json
-  notify:
-    - Restart GDM
 
 - name: Create VNC config directory
   ansible.builtin.file:
@@ -148,8 +137,6 @@
     content: |
       START_UNCLUTTER=true
       EXTRA_OPTS="-idle 0"
-  notify:
-    - Restart GDM
 
 - name: Create directory for custom scripts
   ansible.builtin.file:
@@ -166,8 +153,6 @@
     owner: kiosk
     group: kiosk
     mode: '0755'
-  notify:
-    - Restart GDM
 
 - name: Create startup script
   ansible.builtin.copy:
@@ -176,8 +161,6 @@
     owner: kiosk
     group: kiosk
     mode: '0755'
-  notify:
-    - Restart GDM
 
 - name: Create .xsessionrc file to start VNC on login
   ansible.builtin.copy:
@@ -192,11 +175,8 @@
       xset -dpms
       xset s off
       gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-  notify:
-    - Restart GDM
 
-- name: Force restart of GDM
-  ansible.builtin.command: /bin/true
-  changed_when: true
-  notify:
-    - Restart GDM
+- name: Start GDM
+  ansible.builtin.service:
+    name: gdm
+    state: started
