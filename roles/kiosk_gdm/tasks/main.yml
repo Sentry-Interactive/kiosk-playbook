@@ -35,6 +35,7 @@
   ansible.builtin.command: snap refresh chromium --channel="{{ kiosk_gdm_chromium_channel }}"
   register: result
   changed_when: '"has no updates available" not in result.stderr'
+  ignore_errors: true
 
 - name: Configure GDM as default
   ansible.builtin.copy:
