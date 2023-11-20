@@ -83,7 +83,7 @@
     group: root
     content: |
       [User]
-      Session=kiosk-chromium
+      Session={{ kiosk_gdm_xsession }}
       SystemAccount=false
       [InputSource0]
       xkb=us
