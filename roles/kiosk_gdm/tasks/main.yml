@@ -77,11 +77,17 @@
 
 - name: Set Kiosk XSession as default
   ansible.builtin.copy:
-    src: files/kiosk.xsession
     dest: /var/lib/AccountsService/users/kiosk
     mode: '0600'
     owner: root
     group: root
+    context: |
+      [User]
+      Session=kiosk-chromium
+      SystemAccount=false
+      
+      [InputSource0]
+      xkb=us
 
 - name: Create 'managed' directory for Chromium configuration
   ansible.builtin.file:

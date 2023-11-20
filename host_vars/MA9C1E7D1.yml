@@ -1,2 +1,3 @@
 ---
 kiosk_gdm_chromium_channel: latest/stable
+kiosk_gdm_xsession: kiosk-firefox
