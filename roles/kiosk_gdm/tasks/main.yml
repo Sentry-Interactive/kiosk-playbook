@@ -81,7 +81,7 @@
     mode: '0600'
     owner: root
     group: root
-    context: |
+    content: |
       [User]
       Session=kiosk-chromium
       SystemAccount=false
