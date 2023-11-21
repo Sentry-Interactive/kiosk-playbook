@@ -21,3 +21,14 @@
   ansible.builtin.apt:
     state: latest
     name: sentry-jester
+
+- name: Permit Jester to restart GDM
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/jester
+    owner: root
+    group: root
+    mode: '0440'
+    content: |
+      Cmnd_Alias JESTER_CMDS = /usr/bin/systemctl restart gdm
+      jester ALL=(ALL) NOPASSWD: JESTER_CMDS
+    validate: 'visudo -cf %s'

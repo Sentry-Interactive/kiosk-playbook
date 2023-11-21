@@ -29,7 +29,7 @@
   notify:
     - Restart teleport conditionally
 
-- name: Enable jester to call systemctl
+- name: Permit Jester to enable Teleport
   ansible.builtin.copy:
     dest: /etc/sudoers.d/teleport
     owner: root
