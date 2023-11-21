@@ -88,6 +88,11 @@
       [InputSource0]
       xkb=us
 
+- name: Reload accounts-daemon
+  ansible.builtin.service:
+    name: accounts-daemon
+    state: restarted
+
 - name: Create 'managed' directory for Chromium configuration
   ansible.builtin.file:
     path: /etc/chromium-browser/policies/managed
