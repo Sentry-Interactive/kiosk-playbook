@@ -46,7 +46,7 @@ https://user-images.githubusercontent.com/6087327/199009533-9136f41b-fa56-4803-a
 To use the playbooks in this repository, we need to install git & ansible.
 
 ```shell
-apt-get update && apt-get install -y git ansible-core
+sudo apt-get update && sudo apt-get install -y git ansible-core
 sudo ansible-pull -U https://github.com/Sentry-Interactive/kiosk-playbook.git -i "$(uname -n)," --diff
 ```
 

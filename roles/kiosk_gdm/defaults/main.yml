@@ -1,2 +1,3 @@
 kiosk_gdm_kiosk_ui_url: https://sentry-kiosk-device.web.app/
 kiosk_gdm_chromium_channel: latest/beta
+kiosk_gdm_xsession: kiosk-chromium
