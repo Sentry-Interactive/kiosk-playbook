@@ -2,7 +2,7 @@
 
 #Volume Control - turn up all volume output to 100%
 
-pulseaudio --start
+systemctl --user start pulseaudio
 
 amixer set "Master" 70%
 amixer set "Headphone" 70%
