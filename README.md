@@ -28,6 +28,24 @@ e.g. if our host is `MADBB9B05` but we can only contact it via an IP address or 
 TMPINV=`mktemp` && echo "MADBB9B05 ansible_host=MADBB9B05.local" > $TMPINV && ansible-playbook -i $TMPINV local.yml
 ```
 
+### Remote Testing with Teleport
+Most kiosks can be accessed remotely using Teleport, this allows us to test the playbooks against a remote machine.
+
+```shell
+tsh config >> ~/.ssh/config # Ensure SSH is configured to use teleport
+ansible-galaxy install -r requirements.yml
+TMPINV=`mktemp` && echo "MA928B311 ansible_host=MA928B311.doordeck.teleport.sh" > $TMPINV && ansible-playbook -i $TMPINV local.yml
+```
+
+Note, to make SSH work using Teleport you may need to update the generated SSH config to pass through the hostname
+without modifying it's case, you can do this by changing the `ProxyCommand` to use %n instead of %h.
+
+```
+Host *.doordeck.teleport.sh !doordeck.teleport.sh
+    Port 3022
+    ProxyCommand "/usr/local/bin/tsh" proxy ssh --cluster=doordeck.teleport.sh --proxy=doordeck.teleport.sh:443 %r@%n:%p
+```
+
 ### Install UTM & Setup Virtual Machine
 UTM is a free virtualization tool based on QEMU, it is well suited to test our kiosk setup.
 

@@ -19,8 +19,8 @@
 
 - name: Install jester authentication sidecar
   ansible.builtin.apt:
-    state: latest
-    name: sentry-jester
+    state: present
+    name: sentry-jester=1.16.0
 
 - name: Permit Jester to restart GDM
   ansible.builtin.copy:
